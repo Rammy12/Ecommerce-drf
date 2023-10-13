@@ -47,7 +47,9 @@ def new_product(request):
     if serializer.is_valid():
         product=Product.objects.create(**data,user=request.user)
         #serializer=ProductSerializers(product,many=False)
-        return Response({"Message":'New Product Added SuccesFully'})
+        product = Product.objects.create(**data, user=request.user)
+        res = ProductSerializers(product, many=False)
+        return Response({ "product": res.data })
     else:
         return Response(serializer.errors)
     
